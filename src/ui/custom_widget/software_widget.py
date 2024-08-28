@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 import os
 import subprocess
+import traceback
 from multiprocessing import Process
 
-from PyQt6.QtWidgets import *
-from PyQt6.QtGui import *
-from PyQt6.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 from src.models.startup.software_dataclass import SoftwareData
 
 
 class SoftwareWidget(QFrame):
     def __init__(self, software_data: SoftwareData, parent=None):
-        super().__init__(parent)
+        super().__init__()
         self.original_geometry = None
         self.pic_size = 50
         self.software_data = software_data
@@ -94,15 +95,10 @@ class SoftwareWidget(QFrame):
             QMessageBox.information(self, "提示", "检查到软件未安装，即将开始安装")
             self.install_software()
         try:
-            p = Process(target=run_software, args=(self.software_data.path,))
-            p.start()
-
-        except Exception as e:
-            print(f"Failed to start the software: {e}")
+            subprocess.Popen([self.software_data.path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+        except:
+            QMessageBox.critical(self, "错误", traceback.format_exc())
 
     def install_software(self):
         pass
-
-
-def run_software(path):
-    os.system(path)

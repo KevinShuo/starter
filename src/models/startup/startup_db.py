@@ -2,8 +2,8 @@ import sqlite3
 import os
 import sys
 
-from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QApplication
 
 from .software_dataclass import SoftwareData
 

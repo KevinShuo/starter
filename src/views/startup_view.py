@@ -7,9 +7,9 @@ import os
 from enum import Enum
 from typing import List, Optional
 
-from PyQt6.QtGui import *
-from PyQt6.QtWidgets import *
-from PyQt6.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 from ..models.startup.software_dataclass import SoftwareData
 from ..ui.startup_ui import StartupUI
