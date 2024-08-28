@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import subprocess
+from multiprocessing import Process
 
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
@@ -93,14 +94,15 @@ class SoftwareWidget(QFrame):
             QMessageBox.information(self, "提示", "检查到软件未安装，即将开始安装")
             self.install_software()
         try:
-            subprocess.Popen(
-                [self.software_data.path],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
-            )
+            p = Process(target=run_software, args=(self.software_data.path,))
+            p.start()
+
         except Exception as e:
             print(f"Failed to start the software: {e}")
 
     def install_software(self):
         pass
+
+
+def run_software(path):
+    os.system(path)
