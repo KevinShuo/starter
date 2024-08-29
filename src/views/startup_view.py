@@ -89,10 +89,6 @@ class StartupViewer(QMainWindow):
         self.startup_ui.tabWidget.clear()
         self.init_tab()
 
-        # self.scroll_main.widget_main.adjustSize()
-        # self.scroll_main.grid_main.update()
-        # self.scroll_main.setWidget(self.scroll_main.widget_main)
-
     def init_db(self):
         config_data = self.load_config()
         current_workspace = config_data["current_workspace"]
