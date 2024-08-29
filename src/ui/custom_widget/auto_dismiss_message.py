@@ -2,23 +2,31 @@
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from enum import Enum
+
+
+class MsgLevel(Enum):
+    info = "info"
+    warning = "warning"
+    critical = "critical"
 
 
 class AutoDismissMessage(QLabel):
-    def __init__(self, parent=None, message="", msg_type="info", duration=3000):
+    def __init__(self, parent=None, message="", msg_type: MsgLevel = MsgLevel.info, duration=3000):
         super().__init__(parent)
 
         self.setText(message)
         self.setAlignment(Qt.AlignCenter)
-        self.setFixedSize(150, 50)
+        # self.setFixedSize(250, 50)
         self.setStyleSheet(self.get_style(msg_type))
         self.move_to_top_center()
         self.start_fade_in()
         QTimer.singleShot(duration, self.start_fade_out)
-        f = QFont('SimHei', 10)
+        f = QFont('SimHei', 12)
         f.setBold(True)
         self.setFont(f)
         self.add_shadow()
+        self.adjustSize()
         self.show()
 
     def add_shadow(self):
@@ -28,12 +36,12 @@ class AutoDismissMessage(QLabel):
         effect.setColor(QColor(0, 0, 0, 200))
         self.setGraphicsEffect(effect)
 
-    def get_style(self, msg_type):
-        if msg_type == "info":
+    def get_style(self, msg_type: MsgLevel):
+        if msg_type.value == "info":
             return "background-color: #f7cac9; border: 1px solid #ccccc0;border-radius: 10px;"
-        elif msg_type == "warning":
+        elif msg_type.value == "warning":
             return "background-color: yellow; border: 1px solid black;border-radius: 10px;"
-        elif msg_type == "critical":
+        elif msg_type.value == "critical":
             return "background-color: red; border: 1px solid black; color: white;border-radius: 10px;"
         else:
             return "background-color: #f7cac9; border: 1px solid black;border-radius: 10px;"

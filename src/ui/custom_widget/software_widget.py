@@ -13,7 +13,7 @@ from .auto_dismiss_message import AutoDismissMessage
 
 class SoftwareWidget(QFrame):
     def __init__(self, software_data: SoftwareData, parent=None):
-        super().__init__()
+        super().__init__(parent)
         self.original_geometry = None
         self.pic_size = 50
         self.software_data = software_data
@@ -57,51 +57,4 @@ class SoftwareWidget(QFrame):
         vbox_main.addWidget(self.label_name, 1, Qt.AlignmentFlag.AlignCenter)
         self.setToolTip(self.software_data.description if self.software_data.description else self.software_data.name)
 
-    def enterEvent(self, event):
-        # 记录原始几何尺寸，只在初次记录一次
-        if self.original_geometry is None:
-            self.original_geometry = self.geometry()
 
-        # 停止任何正在进行的动画
-        self.animation.stop()
-
-        # 鼠标进入时重置位置到原始几何尺寸
-        self.setGeometry(self.original_geometry)
-
-        # 设置动画开始和结束值
-        self.animation.setStartValue(self.original_geometry)
-        end_rect = QRect(self.original_geometry.x() - self.scale_factor, self.original_geometry.y() - self.scale_factor,
-                         self.original_geometry.width() + self.scale_factor * 2,
-                         self.original_geometry.height() + self.scale_factor * 2)
-        self.animation.setEndValue(end_rect)
-        self.animation.start()
-
-    def leaveEvent(self, event):
-        # 停止任何正在进行的动画
-        self.animation.stop()
-
-        # 鼠标离开时重置位置到放大的几何尺寸
-        end_rect = QRect(self.original_geometry.x() - self.scale_factor, self.original_geometry.y() - self.scale_factor,
-                         self.original_geometry.width() + self.scale_factor * 2,
-                         self.original_geometry.height() + self.scale_factor * 2)
-        self.setGeometry(end_rect)
-
-        # 设置动画开始和结束值
-        self.animation.setStartValue(self.geometry())
-        self.animation.setEndValue(self.original_geometry)
-        self.animation.start()
-
-    def mouseDoubleClickEvent(self, *args, **kwargs):
-        if not os.path.exists(self.software_data.path):
-            QMessageBox.information(self, "提示", "检查到软件未安装，即将开始安装")
-            self.install_software()
-        try:
-            subprocess.Popen([self.software_data.path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
-            message = AutoDismissMessage(message="启动成功", parent=self.parent())
-
-        except:
-            QMessageBox.critical(self, "错误", traceback.format_exc())
-
-    def install_software(self):
-        pass

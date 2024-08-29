@@ -13,7 +13,7 @@ from PyQt5.QtCore import *
 
 from ..models.startup.software_dataclass import SoftwareData
 from ..ui.startup_ui import StartupUI
-from ..ui.custom_widget.software_browser import SoftwareBrowser
+from ..views.software_browser_view import SoftwareBrowserView
 from ..models.startup.startup_db import StartupDB
 from ..config import *
 from ..util import *
@@ -117,7 +117,6 @@ class StartupViewer(QMainWindow):
                 tab_title = self.startup_ui.tabWidget.tabText(c)
                 if tab_title == self.cache.current_tab:
                     self.startup_ui.tabWidget.setCurrentIndex(c)
-                    self.scroll_main.resize()
 
     def add_tab(self, name: str):
         """
@@ -127,13 +126,13 @@ class StartupViewer(QMainWindow):
         vbox_tab_main = QVBoxLayout(widget_tab)
         vbox_tab_main.setContentsMargins(0, 0, 0, 0)
         all_software = tuple([i for i in self.software_list if i.tab == name])
-        self.scroll_main = SoftwareBrowser(all_software)
+        self.scroll_main = SoftwareBrowserView(all_software)
         vbox_tab_main.addWidget(self.scroll_main)
         self.startup_ui.tabWidget.addTab(widget_tab, name)
 
-    def _get_software_browser(self, tab_index: int) -> SoftwareBrowser:
+    def _get_software_browser(self, tab_index: int) -> SoftwareBrowserView:
         widget = self.startup_ui.tabWidget.widget(tab_index)
-        return [i for i in widget.findChildren(SoftwareBrowser)][0]
+        return [i for i in widget.findChildren(SoftwareBrowserView)][0]
 
     @property
     def db_local_path(self) -> str:

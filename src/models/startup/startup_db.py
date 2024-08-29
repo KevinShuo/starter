@@ -80,13 +80,16 @@ class StartupDB:
             cursor.execute(f'''
 create table {self.table_name}
 (
-    id   integer not null
-        constraint {self.table_name}_pk
+    id              integer not null
+        constraint proj_lizhi_pk
             primary key,
-    name TEXT,
-    path TEXT,
-    ico  TEXT,
-    tab  TEXT
+    name            TEXT,
+    path            TEXT,
+    ico             TEXT,
+    tab             TEXT,
+    description     TEXT,
+    version         TEXT,
+    install_program TEXT
 );
  ''')
             self._db.commit()

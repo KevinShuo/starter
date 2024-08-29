@@ -11,6 +11,8 @@ class SoftwareData:
     tab: str
     description: Optional[str] = None
     version: Optional[str] = None
+    install_program: Optional[str] = None
 
     def __hash__(self):
-        return hash((self._id, self.name, self.path, self.ico, self.tab, self.description, self.version))
+        return hash(
+            (self._id, self.name, self.path, self.ico, self.tab, self.description, self.version, self.install_program))
