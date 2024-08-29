@@ -65,7 +65,6 @@ class StartupViewer(QMainWindow):
             self.move(x, y)
         # menu
         self.init_project_menu()
-
         self.show()
 
     def init_project_menu(self):
@@ -75,12 +74,24 @@ class StartupViewer(QMainWindow):
         for table in tables:
             action_project = menu_projects.addAction('_'.join(str(table).split("_")))
             action_project.triggered.connect(functools.partial(self.clicked_project_action, table))
+        refresh = self.startup_ui.menuBar.addAction("Refresh")
+        refresh.triggered.connect(functools.partial(self.clicked_refresh_action))
 
     def clicked_project_action(self, menu_name: str):
         self.write_config(menu_name)
         self.init_db()
         self.startup_ui.tabWidget.clear()
         self.init_tab()
+        # self.scroll_main.resize()
+
+    def clicked_refresh_action(self):
+        self.init_db()
+        self.startup_ui.tabWidget.clear()
+        self.init_tab()
+
+        # self.scroll_main.widget_main.adjustSize()
+        # self.scroll_main.grid_main.update()
+        # self.scroll_main.setWidget(self.scroll_main.widget_main)
 
     def init_db(self):
         config_data = self.load_config()
@@ -110,6 +121,7 @@ class StartupViewer(QMainWindow):
                 tab_title = self.startup_ui.tabWidget.tabText(c)
                 if tab_title == self.cache.current_tab:
                     self.startup_ui.tabWidget.setCurrentIndex(c)
+                    self.scroll_main.resize()
 
     def add_tab(self, name: str):
         """

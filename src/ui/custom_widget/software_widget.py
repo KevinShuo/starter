@@ -2,13 +2,13 @@
 import os
 import subprocess
 import traceback
-from multiprocessing import Process
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 from src.models.startup.software_dataclass import SoftwareData
+from .auto_dismiss_message import AutoDismissMessage
 
 
 class SoftwareWidget(QFrame):
@@ -55,6 +55,7 @@ class SoftwareWidget(QFrame):
         self.label_name.setObjectName("label_name")
         vbox_main.addWidget(self.label_picture, 1, Qt.AlignmentFlag.AlignCenter)
         vbox_main.addWidget(self.label_name, 1, Qt.AlignmentFlag.AlignCenter)
+        self.setToolTip(self.software_data.description if self.software_data.description else self.software_data.name)
 
     def enterEvent(self, event):
         # 记录原始几何尺寸，只在初次记录一次
@@ -97,6 +98,8 @@ class SoftwareWidget(QFrame):
         try:
             subprocess.Popen([self.software_data.path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                              creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+            message = AutoDismissMessage(message="启动成功", parent=self.parent())
+
         except:
             QMessageBox.critical(self, "错误", traceback.format_exc())
 

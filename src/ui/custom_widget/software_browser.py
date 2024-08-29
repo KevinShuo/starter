@@ -1,5 +1,3 @@
-
-
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -28,9 +26,8 @@ class SoftwareBrowser(QScrollArea):
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self.init_software()
-        self.widget_main.adjustSize()
-        self.grid_main.update()
-        self.setWidget(self.widget_main)
+
+        # self.setWidget(self.widget_main)
 
     def init_software(self):
         self._get_software_column()
@@ -46,17 +43,19 @@ class SoftwareBrowser(QScrollArea):
             if index % self.column == 0:
                 row += 1
                 column = 0
-        # self.setWidget(self.widget_main)
+        self.widget_main.adjustSize()
+        self.grid_main.update()
+        self.setWidget(self.widget_main)
+
+    def resize(self):
+        self.widget_main.adjustSize()
+        self.grid_main.update()
 
     def _add_software_widget(self, software, row, column):
         software_widget = SoftwareWidget(software, parent=self)
-        software_widget.setMinimumWidth(self.software_size)
-        software_widget.setMinimumHeight(self.software_size)
+        software_widget.setFixedWidth(self.software_size)
+        software_widget.setFixedHeight(self.software_size)
         self.grid_main.addWidget(software_widget, row, column)
-
-    def add_software_widget(self, path: str):
-        path = ''.join(path[1:])
-        # Add logic to handle the software widget based on the path
 
     def dragEnterEvent(self, event):
         mime_data: QMimeData = event.mimeData()
