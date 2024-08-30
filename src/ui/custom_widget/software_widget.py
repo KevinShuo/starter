@@ -45,7 +45,7 @@ class SoftwareWidget(QFrame):
     def setupUI(self):
         self.setObjectName("SoftwareWidget")
         vbox_main = QVBoxLayout(self)
-        self.setMinimumSize(0, 0)
+        # self.setMinimumSize(0, 0)
         self.label_picture = QLabel()
         self.label_picture.setObjectName("label_picture")
         pix = QPixmap(self.software_data.ico).scaledToWidth(self.pic_size)

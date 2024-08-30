@@ -46,8 +46,8 @@ class SoftwareBrowserView(SoftwareBrowser):
 
     def _add_software_widget(self, software, row, column):
         software_widget = SoftwareView(software, parent=self)
-        software_widget.setFixedWidth(self.software_size)
-        software_widget.setFixedHeight(self.software_size)
+        software_widget.setMinimumWidth(self.software_size)
+        software_widget.setMinimumHeight(self.software_size)
         self.grid_main.addWidget(software_widget, row, column)
 
     def dragEnterEvent(self, event):

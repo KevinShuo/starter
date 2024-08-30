@@ -46,7 +46,9 @@ class StartupViewer(QMainWindow):
         # 初始化tab
         self.init_tab()
 
+
     def init_ui(self):
+        self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.cache = self._get_save_size()
         self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "logo.ico")))
         self.setIconSize(QSize(128, 128))

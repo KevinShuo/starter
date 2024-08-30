@@ -54,8 +54,8 @@ class SoftwareView(SoftwareWidget):
             QMessageBox.information(self, "提示", "检查到软件未安装，即将开始安装")
             self.install_software()
         try:
-            subprocess.Popen([self.software_data.path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+            process = subprocess.Popen([self.software_data.path],
+                                      creationflags=subprocess.CREATE_NEW_CONSOLE)
             message = AutoDismissMessage(message="启动成功", parent=self.parent())
 
         except:
@@ -73,4 +73,4 @@ class SoftwareView(SoftwareWidget):
             AutoDismissMessage(message="安装程序路径不存在，请联系TD", msg_type=MsgLevel.critical,
                                parent=self.parent())
             return
-        subprocess.run([self.software_data.install_program])
+        subprocess.run([self.software_data.install_program], creationflags=subprocess.CREATE_NEW_CONSOLE)
