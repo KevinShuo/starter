@@ -11,6 +11,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
+from ..models.effect_style import apply_blur_effect
 from ..models.startup.software_dataclass import SoftwareData
 from ..ui.startup_ui import StartupUI
 from ..views.software_browser_view import SoftwareBrowserView
@@ -25,27 +26,37 @@ class DBType(Enum):
 
 
 class StartupViewer(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.current_project = None
-        self.db_startup = None
-        # global config
-        self.window_size = (785, 649)
-        # title
-        self.window_title = "软件启动器"
-        self.startup_ui = StartupUI()
-        # pieces of software list
-        self.software_list: List[SoftwareData] = []
-        # 显示
-        self.startup_ui.setupUi(self)
-        self.init_ui()
-        # 样式初始化
-        self.init_style()
-        # 数据库操作
-        self.init_db()
-        # 初始化tab
-        self.init_tab()
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(StartupViewer, cls).__new__(cls)
+            cls._instance._is_initialized = False
+        return cls._instance
 
+    def __init__(self):
+        if not self._is_initialized:
+            super().__init__()
+            hwnd = int(self.winId())  # 获取窗口句柄
+            apply_blur_effect(hwnd)
+            self.current_project = None
+            self.db_startup = None
+            # global config
+            self.window_size = (785, 649)
+            # title
+            self.window_title = "软件启动器"
+            self.startup_ui = StartupUI()
+            # pieces of software list
+            self.software_list: List[SoftwareData] = []
+            # 显示
+            self.startup_ui.setupUi(self)
+            self.init_ui()
+            # 样式初始化
+            self.init_style()
+            # 数据库操作
+            self.init_db()
+            # 初始化tab
+            self.init_tab()
+            self._is_initialized = True
 
     def init_ui(self):
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -67,6 +78,7 @@ class StartupViewer(QMainWindow):
             self.move(x, y)
         # menu
         self.init_project_menu()
+        self.startup_ui.tabWidget.currentChanged.connect(self.switch_tab)
         self.show()
 
     def init_project_menu(self):
@@ -119,6 +131,12 @@ class StartupViewer(QMainWindow):
                 tab_title = self.startup_ui.tabWidget.tabText(c)
                 if tab_title == self.cache.current_tab:
                     self.startup_ui.tabWidget.setCurrentIndex(c)
+
+    def switch_tab(self, current_index: int):
+        widget = self.startup_ui.tabWidget.widget(current_index)
+        if not widget:
+            return
+        scroll: SoftwareBrowserView = [i for i in widget.findChildren(SoftwareBrowserView)][0]
 
     def add_tab(self, name: str):
         """
@@ -233,3 +251,12 @@ class StartupViewer(QMainWindow):
                     "current_tab": self.startup_ui.tabWidget.tabText(self.startup_ui.tabWidget.currentIndex()),
                     "current_project": self.current_project}
             file.write(json.dumps(size))
+
+    def show(self):
+        if self.isMinimized():
+            self.showNormal()  # 如果窗口最小化，恢复到正常状态
+        super(StartupViewer, self).show()
+        self.raise_()  # 将窗口置于顶端
+        self.activateWindow()  # 激活窗口
+
+
