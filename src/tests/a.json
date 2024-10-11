@@ -1,0 +1,67 @@
+File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\socket.py", line 54, in <module>
+    import os, sys, io, selectors
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\selectors.py", line 12, in <module>
+    import select
+ImportError: Module use of python37.dll conflicts with this version of Python.
+
+Error setting kwargs:
+Traceback (most recent call last):
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107610, in <module>
+    __finishImport()
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107320, in __finishImport
+    import hwebserver
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hwebserver.py", line 20, in <module>
+    import socket
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\socket.py", line 54, in <module>
+    import os, sys, io, selectors
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\selectors.py", line 12, in <module>
+    import select
+ImportError: Module use of python37.dll conflicts with this version of Python.
+
+Error running event handler:
+Traceback (most recent call last):
+  File "Sop/muscleconstraintproperties, opdef:/Sop/muscleconstraintproperties?ViewerStateInstall", line 1, in <module>
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\viewerstate\utils.py", line 10, in <module>
+    from toolutils import sceneViewer
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\toolutils.py", line 5, in <module>
+    import hou
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107610, in <module>
+    __finishImport()
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107320, in __finishImport
+    import hwebserver
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hwebserver.py", line 20, in <module>
+    import socket
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\socket.py", line 54, in <module>
+    import os, sys, io, selectors
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\selectors.py", line 12, in <module>
+    import select
+ImportError: Module use of python37.dll conflicts with this version of Python.
+
+Error setting kwargs:
+Traceback (most recent call last):
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107610, in <module>
+    __finishImport()
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107320, in __finishImport
+    import hwebserver
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hwebserver.py", line 20, in <module>
+    import socket
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\socket.py", line 54, in <module>
+    import os, sys, io, selectors
+  File "C:\PROGRA~1\SIDEEF~1\HOUDIN~1.590\python310\lib\selectors.py", line 12, in <module>
+    import select
+ImportError: Module use of python37.dll conflicts with this version of Python.
+
+Error running event handler:
+Traceback (most recent call last):
+  File "Sop/muscleconstraintpropertiesfem, opdef:/Sop/muscleconstraintpropertiesfem?ViewerStateInstall", line 1, in <module>
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\viewerstate\utils.py", line 10, in <module>
+    from toolutils import sceneViewer
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\toolutils.py", line 5, in <module>
+    import hou
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107610, in <module>
+    __finishImport()
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hou.py", line 107320, in __finishImport
+    import hwebserver
+  File "C:\PROGRA~1/SIDEEF~1/HOUDIN~1.590/houdini/python3.10libs\hwebserver.py", line 20, in <module>
+    import socket
+  

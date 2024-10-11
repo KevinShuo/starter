@@ -54,8 +54,20 @@ class SoftwareView(SoftwareWidget):
             QMessageBox.information(self, "提示", "检查到软件未安装，即将开始安装")
             self.install_software()
         try:
-            process = subprocess.Popen([self.software_data.path],
-                                      creationflags=subprocess.CREATE_NEW_CONSOLE)
+            # 获取 Houdini 可执行文件的目录
+            houdini_dir = os.path.dirname(self.software_data.path)
+
+            # 构建干净的环境变量
+            env = os.environ.copy()
+            env.pop("PYTHONPATH", None)
+
+            # 启动 Houdini
+            process = subprocess.Popen(
+                [self.software_data.path],
+                creationflags=subprocess.CREATE_NEW_CONSOLE,
+                env=env,
+                cwd=houdini_dir
+            )
             message = AutoDismissMessage(message="启动成功", parent=self.parent())
 
         except:
