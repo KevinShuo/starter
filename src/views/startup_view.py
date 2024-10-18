@@ -27,6 +27,7 @@ class DBType(Enum):
 
 class StartupViewer(QMainWindow):
     _instance = None
+
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super(StartupViewer, cls).__new__(cls)
@@ -57,6 +58,27 @@ class StartupViewer(QMainWindow):
             # 初始化tab
             self.init_tab()
             self._is_initialized = True
+
+            # 设置应用程序图标
+            self.tray_icon = QSystemTrayIcon(self)
+            self.tray_icon.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "logo.ico")))
+            self.tray_icon.setToolTip("DCC启动器")
+
+            # 创建托盘图标的菜单
+            tray_menu = QMenu()
+
+            restore_action = QAction("恢复", self)
+            restore_action.triggered.connect(self.show)
+            tray_menu.addAction(restore_action)
+
+            exit_action = QAction("退出", self)
+            exit_action.triggered.connect(QApplication.instance().quit)
+            tray_menu.addAction(exit_action)
+
+            self.tray_icon.setContextMenu(tray_menu)
+
+            # 双击托盘图标恢复窗口
+            self.tray_icon.activated.connect(self.on_tray_icon_activated)
 
     def init_ui(self):
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -216,6 +238,15 @@ class StartupViewer(QMainWindow):
     def closeEvent(self, a0):
         super().closeEvent(a0)
         self._set_window_size(self.x(), self.y(), self.width(), self.height())
+        a0.ignore()
+        self.hide()
+        self.tray_icon.show()
+        self.tray_icon.showMessage(
+            "最小化到托盘",
+            "应用程序已最小化到系统托盘。",
+            QSystemTrayIcon.Information,
+            2000
+        )
 
     def resizeEvent(self, event):
         # print(event.size())
@@ -259,4 +290,9 @@ class StartupViewer(QMainWindow):
         self.raise_()  # 将窗口置于顶端
         self.activateWindow()  # 激活窗口
 
-
+    def on_tray_icon_activated(self, reason):
+        """
+        处理托盘图标的激活事件。
+        """
+        if reason == QSystemTrayIcon.DoubleClick:
+            self.show()
