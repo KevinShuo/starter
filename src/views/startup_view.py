@@ -11,6 +11,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
+from ..config.config import G_title, G_version
 from ..models.effect_style import apply_blur_effect
 from ..models.startup.software_dataclass import SoftwareData
 from ..ui.startup_ui import StartupUI
@@ -44,7 +45,7 @@ class StartupViewer(QMainWindow):
             # global config
             self.window_size = (785, 649)
             # title
-            self.window_title = "软件启动器"
+            self.window_title = f"{G_title}_v{G_version}"
             self.startup_ui = StartupUI()
             # pieces of software list
             self.software_list: List[SoftwareData] = []
