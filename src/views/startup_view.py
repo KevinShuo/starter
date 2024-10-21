@@ -62,7 +62,7 @@ class StartupViewer(QMainWindow):
 
             # 设置应用程序图标
             self.tray_icon = QSystemTrayIcon(self)
-            self.tray_icon.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "logo.ico")))
+            self.tray_icon.setIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "viewer.ico")))
             self.tray_icon.setToolTip("DCC启动器")
 
             # 创建托盘图标的菜单
@@ -84,7 +84,7 @@ class StartupViewer(QMainWindow):
     def init_ui(self):
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.cache = self._get_save_size()
-        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "logo.ico")))
+        self.setWindowIcon(QIcon(os.path.join(os.path.dirname(__file__), "../resources", "viewer.ico")))
         self.setIconSize(QSize(128, 128))
         if self.cache:
             self.resize(self.cache.width, self.cache.height)

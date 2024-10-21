@@ -16,19 +16,18 @@ def check_update():
     target_path = version_json["target_path"]
     if not os.path.exists(target_path):
         raise FileNotFoundError
+    print(target_path)
     version_data = check_version(target_path, G_version)
     if not version_data:
         return
     update = Updater()
-    src_dir = os.path.dirname(os.path.dirname(__file__))
-    update.set_src_path(src_dir)
-    update.set_dst_path(target_path)
+    src_dir = os.path.dirname(__file__)
+    update.set_src_path(target_path)
+    update.set_dst_path(src_dir)
     update.run()
 
 
 if __name__ == '__main__':
-    print(sys.executable)
-    check_update()
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
